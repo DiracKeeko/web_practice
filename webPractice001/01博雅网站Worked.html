@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>boyaaWeb</title>
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0;
+        }
+        .clearfix:before,
+        .clearfix:after{
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .clearfix{
+            zoom: 1;
+        }
+
+        .header{
+            width: 100%;
+            height: 58px;
+            background-color: #191d3a;
+        }
+        .inner{
+            width: 964px;
+            margin: 0 auto;
+        }
+        .inner .logo{
+            float:left;
+            margin-top:9px;
+        }
+
+        .inner .nav{
+            float:left;
+        }
+        .inner .nav ul{
+            list-style: none;
+            margin-left: 48px;
+            margin-right: 52px;
+        }
+        .inner .nav ul li{
+            float: left;
+            width: 85px;
+            border-left: 1px solid #252947;
+            text-align: center;
+        }
+        .inner .nav ul li.right{
+            border-right: 1px solid #252947;
+        }
+        .inner .nav ul li a{
+            display: block;
+            text-decoration: none;
+            font: 14px/58px "Microsoft Yahei","Simsun";
+            color: #818496;
+        }
+        .inner .nav ul li a.current{
+            background-color: #252947;
+            color: #fff;
+        }
+        .inner .nav ul li a:hover{
+            color: #fff;
+        }
+
+        .inner .joinus{
+            float: left;
+            margin-top: 12px;
+        }
+        .inner .joinus a{
+            display: block;
+            background-color: #38b774;
+            width: 100px;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #fff;
+            font: 14px/34px "Microsoft Yahei";
+            text-align: center;
+        }
+        .inner .joinus a:hover{
+            background-color: orange;
+        }
+
+        .banner{
+            width: 100%;
+            position: relative;
+        }
+        .banner .bannerBG{
+            width: 100%;
+            height: 463px;
+            background: url(images/banner1.jpg) no-repeat center top;
+        }
+        .banner .bannerCircle{
+            width: 120px;
+            height: 30px;
+            position: absolute;
+            /* background-color: #f00; */
+            /* left: 606px; */
+            /* 这里left不要用数值，用50%表示移动父元素的50%宽度(左边缘到达父元素水平中间位置) */
+            left: 50%;
+            bottom: 13px;
+            /* 再用margin-left，让元素左移自己宽度的一半，中心位置对准父元素中心位置。 */
+            margin-left: -60px;
+        }
+        .banner .bannerCircle ol{
+            list-style: none;
+        }
+        .banner .bannerCircle ol li{
+            float: left;
+            /* width: 30px;
+            height: 30px; */
+            /* 为了CSS雪碧图的放置，内容区的宽度应该为单个icon的宽高 */
+            width: 12px;
+            height: 12px;
+            margin: 9px;
+            background: url(images/icons.png) no-repeat -1px -3px;
+        }
+        .banner .bannerCircle ol li.cur{
+            background-position: -13px -3px;
+        }
+        .banner .bannerCircle ol li:hover{
+            background-position: -13px -3px;
+            cursor: pointer;
+        }
+
+        .product{
+            width: 1001px;
+            height: 230px;
+            margin: 50px auto 48px;
+            border-bottom: 1px solid #dbe1e7;
+            position: relative;
+        }
+        .product ul{
+            list-style: none;
+        }
+        .product ul li{
+            float: left;
+            width: 218px;
+            height: 224px;
+            margin-right: 43px;
+            position: relative;
+        }
+        .product ul li.right{
+            margin-right: 0px;
+        }
+        .product ul li a{
+            text-decoration: none;
+            text-align: center;
+            font: 14px "Arial","Microsoft Yahei","SimSun";
+        }
+        .product ul li a img{
+            display: block;
+        }
+        .product ul li a span.ch{
+            /*转成块之后，上面的text-align:center;就可以居中内部文字了*/
+            display: block;
+            line-height: 14px;
+ 			font-weight: bold;
+            color:#444866;
+            /* 不能用margin，因为有hover的背景色效果 */
+            /* margin-top: 14px; */
+            padding-top: 14px;
+        }
+        .product ul li a span.en{
+            display: block;
+            font-size: 12px;
+ 			line-height: 12px;
+ 			color:#38B774;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .product ul li a span.en b{
+            font-weight: normal;
+ 			padding-right: 10px;
+            /* 设置padding-right: 11px 把内容区往左挤，给背景图放箭头留出位置。 */
+ 			background: url(images/arrow.png) no-repeat right center;
+ 		}
+        
+        .product ul li a:hover{
+            background-color: #38B774;
+        }
+        .product ul li a:hover span.ch{
+            color:#fff;
+            background-color: #38B774;
+        }
+        .product ul li a:hover span.en{
+            color:#fff;
+            background-color: #38B774;
+        }
+        .product ul li a:hover span.en b{
+ 			background: url(images/arrow2.png) no-repeat right center;
+ 		}
+        
+        .product .circles{
+ 			position: absolute;
+ 			bottom: -6px;
+ 			left: 50%;
+ 			width: 121px;
+ 			height: 12px;
+ 			margin-left: -60px;
+ 			background-color: white;
+ 		}
+        .product .circles ol{
+ 			padding-left: 17px;
+ 			list-style: none;
+ 		}
+ 		.product .circles ol li{
+ 			float: left;
+ 			width: 12px;
+ 			height: 12px;
+ 			background:url(images/icons.png) no-repeat -1px -15px;
+ 			margin-right: 14px;
+ 		}
+ 		.product .circles ol li.current{
+ 			background-position: -13px -15px;
+ 		}
+        .product .circles ol li:hover{
+ 			background-position: -13px -15px;  
+            cursor: pointer;
+ 		}
+
+        .footer{
+            height: 364px;
+            background: url(images/shan.jpg) no-repeat center top;
+            /* border: 1px solid red; */
+        }
+        .footer .content{
+            width: 1000px;
+            margin: 0 auto;
+            /* border: 1px solid blue; */
+        }
+        .footer .content .news{
+            width: 500px;
+            float: left;
+        }
+        .footer .content .news .newsTittle{
+            height: 120px;
+            background: url(images/new_bg2.png) no-repeat right top;
+            position: relative;
+        }
+        .footer .content .news .newsTittle img{
+            float: left;
+            margin-left: 31px;
+            margin-top: 39px;
+        }
+        .footer .content .news .newsTittle div{
+            float: left;
+            margin-left: 11px;
+            margin-top: 30px;
+        }
+        .footer .content .news .newsTittle div h2{
+            font: bold 33px "Hiragino Sans GB", "Microsoft YaHei";
+            color: #45496c;
+        }
+        .footer .content .news .newsTittle div p{
+            font: 12px "Hiragino Sans GB", "Microsoft YaHei";
+            color: #a4b6ca;
+            padding-left: 2px;
+        }
+        .footer .content .news .newsTittle span{
+            float: left;
+            margin-top: 39px;
+            margin-left: 14px;
+            font: 12px "Hiragino Sans GB", "Microsoft YaHei";
+        }
+        .footer .content .news .newsTittle span a{
+            text-decoration: none;
+            display: block;
+            width: 64px;
+            height: 26px;
+            line-height: 19px;
+            text-align: center;
+            color: #30bd72;
+            border: 1px solid #33b972;
+            border-radius: 4px;
+        }
+        .footer .content .news .newsTittle span a:hover{
+            color: #fff;
+            background-color: #30bd72;
+        }
+
+        .footer .content .news .newsList{
+            padding-left: 18px;
+            padding-top: 8px;
+            list-style: none;
+        }
+        .footer .content .news .newsList li{
+            border-bottom: 1px solid #dbe1e7;
+        }
+        .footer .content .news .newsList li.first{
+            margin-top: -16px;
+        }
+        .footer .content .news .newsList li a{
+            text-decoration: none;
+            font-family: "Hiragino Sans GB", "Microsoft YaHei";
+        }
+        .footer .content .news .newsList li .time{
+            float: left;
+            color: #afbecf;
+            font: 12px/50px "Microsoft Yahei";
+        }
+        .footer .content .news .newsList li a{
+            float: left;
+            margin-left: 20px;
+            color: #444866;;
+            font-size: 14px;
+            line-height: 50px;
+        }
+        .footer .content .news .newsList li a:hover{
+            color: #33b972;
+        }
+
+        .footer .content .employee{
+            float:left;
+            width: 500px;
+            height: 310px;
+            background: url(images/byhrbg3.jpg) no-repeat center top;
+            /* background-color: #f00; */
+        }
+        .footer .employee .emTittle{
+            height: 90px;
+        }
+        .footer .employee .emTittle div{
+            float: left;
+            margin-left: 78px;
+            margin-top: 40px;
+        }
+        .footer .employee .emTittle div h2{
+            font: 900 28px/34px "Hiragino Sans GB", "Microsoft YaHei";
+            color: #fff;
+        }
+        .footer .employee .emTittle div p{
+            font: 12px "Hiragino Sans GB", "Microsoft YaHei";
+            color: #fff;
+            padding-left: 2px;
+        }
+        .footer .employee .emTittle span{
+            float: left;
+            margin-top: 39px;
+            margin-left: 26px;
+            font: 12px "Hiragino Sans GB", "Microsoft YaHei";
+        }
+        .footer .employee .emTittle span a{
+            text-decoration: none;
+            display: block;
+            width: 64px;
+            height: 26px;
+            line-height: 19px;
+            text-align: center;
+            border-radius: 4px;
+            color: #fff;
+            border: 1px solid #fff;
+        }
+        .footer .employee .emTittle span a:hover{
+            color: #30bd72;
+            background-color: #fff;
+        }
+
+        .footer .employee .emList{
+            padding-left: 20px;
+            font: 14px "Hiragino Sans GB", "Microsoft YaHei";
+            color: #fff;
+        }
+        .footer .employee .emList h3{
+            width: 306px;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+        .footer .employee .emList ul{
+            width: 306px;
+            list-style: none;
+            margin-top: 3px;
+        }
+        .footer .employee .emList ul li{
+            border-bottom: 1px solid #6fdea3;
+        }
+        .footer .employee .emList ul li a{
+            display: block;
+            text-decoration: none;
+            height: 37px;
+            font: 14px/37px "Hiragino Sans GB", "Microsoft YaHei";
+            color:#fff;
+        }
+        
+        .lastOuter{
+            height: 192px;
+            background-color: #191d3a;
+        }
+        .lastInner{
+            width: 1000px;
+            margin: 0 auto;
+            padding-top: 20px;
+            font: 12px/58px "Microsoft Yahei","Simsun";
+            color: #6c6e7e;
+        }
+        .lastInner p{
+            height: 50px;
+            line-height: 50px;
+        }
+        .lastInner a{
+            text-decoration: none;
+            color: #6c6e7e;
+        }
+        .lastInner a:hover{
+            text-decoration: none;
+            color: #fff;
+        }
+        .lastInner .license span{
+            float: left;
+        }
+        .lastInner .license a img{
+            float: left;
+            margin-left: 10px;
+            width: 36px;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+    <div class="header">
+        <div class="inner">
+            <div class="logo">
+                <a href="javascript:;"><img src="images/logo.png" alt="logo"></a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a class="current" href="javascript:;">首页</a></li>
+                    <li><a href="javascript:;">博雅游戏</a></li>
+                    <li><a href="javascript:;">博雅新闻</a></li>
+                    <li><a href="javascript:;">关于我们</a></li>
+                    <li><a href="javascript:;">客服中心</a></li>
+                    <li><a href="javascript:;">投资者关系</a></li>
+                    <li class="last"><a href="javascript:;">校园大使</a></li>
+                </ul>
+            </div>
+            <div class="joinus">
+                <a href="javascript:;">加入我们</a>
+            </div>
+        </div>
+    </div>
+        
+    <div class="banner">
+        <div class="bannerBG"></div>
+        <div class="bannerCircle">
+            <ol>
+                <li class="cur"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="product">
+        <ul>
+            <li>
+                <a href="#">
+                    <img src="images/pro1.png" alt="p1">
+                    <span class="ch">四川麻将</span>
+                    <span class="en"><b>SICHUAN MAHJONG</b></span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="images/pro2.png" alt="p2">
+                    <span class="ch">四川棋牌</span>
+                    <span class="en"><b>BOYAA SZECHWAN GAME</b></span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="images/pro3.png" alt="p3">
+                    <span class="ch">二人麻将</span>
+                    <span class="en"><b>TWO PLAYER MAHJONG</b></span>
+                </a>
+            </li>
+            <li class="right">
+                <a href="#">
+                    <img src="images/pro4.png" alt="p4">
+                    <span class="ch">虫虫特工队</span>
+                    <span class="en"><b>ANT WARS</b></span>
+                </a>
+            </li>
+        </ul>
+        <div class="circles">
+            <ol>
+                <li></li>
+                <li class="current"></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="content clearfix">
+            <div class="news">
+                <div class="newsTittle">
+                    <img src="images/news.png" alt="newsIcon">
+                    <div>
+                        <h2>博雅新闻</h2>
+                        <p>BOYAA NEWS</p>
+                    </div>
+                    <span><a href="#">MORE<sup>+</sup></a></span>
+                </div>
+                <ul class="newsList">
+                    <li class="clearfix first">
+                        <span class="time">01 / 09</span>
+                        <a href="#">博雅互动获2017中国融资大奖"年度飞跃企业创新奖"</a>
+                    </li>
+                    <li class="clearfix">
+                        <span class="time">12 / 19</span>
+                        <a href="#">昆明理工大学问鼎2017博雅象棋高校联盟争霸赛</a>
+                    </li>
+                    <li class="clearfix">
+                        <span class="time">11 / 22</span>
+                        <a href="#">博雅互动游戏新品发布</a>
+                    </li>
+                    <li class="clearfix">
+                        <span class="time">11 / 16</span>
+                        <a href="#">2017博雅互动云南高校象棋争霸赛即将开赛</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="employee">
+                <div class="emTittle">
+                    <div>
+                        <h2>社会招聘</h2>
+                        <p>BOYAA JOBS</p>
+                    </div>
+                    <span><a href="#">MORE<sup>+</sup></a></span>
+                </div>
+                <div class="emList">
+                    <h3>社会招聘岗位</h3>
+                    <ul>
+                        <li><a href="#">PHP开发工程师</a></li>
+                        <li><a href="#">C++开发工程师</a></li>
+                        <li><a href="#">LUA开发工程师</a></li>
+                        <li><a href="#">大数据开发工程师</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    <!-- ↙ footer结束 -->
+    </div>
+
+    <div class="lastOuter">
+        <div class="lastInner">
+            <p class="link">
+                <a href="#">网站地图</a> &nbsp;|&nbsp; 
+                <a href="#">免责声明</a> &nbsp;|&nbsp; 
+                <a href="#">监督举报</a></li>
+            </p>
+            <p class="copyright">
+                Copyright © 2004 - 2017 博雅互动(Boyaa Interactive)
+                <a href="#">粤ICP备05062536号</a>
+            </p>
+            <p class="license">
+                <span>网络文化经营许可证：粤网文[2015]1991-405号&nbsp;|&nbsp;互联网出版许可证：新出网证（粤）字062号&nbsp;|&nbsp;增值电信业务经营许可证：粤B2-20110513</span>
+                <a href="#"><img src="images/govIcon.gif"></a> 
+            </p>
+        </div>
+    </div>
+
+        
+</body>
+
+</html>
