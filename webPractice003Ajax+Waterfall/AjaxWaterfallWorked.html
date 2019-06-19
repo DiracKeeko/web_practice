@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background-color: #ccc;
+		}
+		.waterfall{
+			width: 790px;
+			margin: 0 auto;
+			position: relative;
+		}
+		.grid{
+			position: absolute;
+			width: 230px;
+			background-color: white;
+			padding: 10px;
+			border-radius: 15px;
+		}
+		.grid img{
+			width: 230px;
+		}
+		.grid .title{
+			font-weight: bold;
+			font-size: 18px;
+			line-height: 32px;
+		}
+		.grid .neirong{
+			line-height: 150%;
+			font-size: 14px;
+			margin-bottom: 20px;
+		}
+		.grid .zuozhe{
+			float: right;
+			color:orange;
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+	<div class="waterfall" id="waterfall">
+		
+	</div>
+
+	<script type="text/template" id="grid_template">
+		<div class="grid">
+			<img src="<%=imgurl%>" alt="" />
+			<p class="title"><%=title%></p>
+			<p class="neirong"><%=content%></p>
+			<p class="zuozhe"><%=author%></p>
+		</div>
+	</script>
+
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="js/underscore.js"></script>
+	<script type="text/javascript">
+		/* 
+			1. 发送ajax请求，用得到的数据更新瀑布流
+			2.滚动监听，继续发送ajax请求，用得到的数据更新瀑布流
+		 */
+
+		var $waterfall = $("#waterfall");
+
+		var templateStr = $("#grid_template").html();
+		var compileFun = _.template(templateStr);
+
+		// 瀑布流，三列，记录每列的总高度
+		var colHeight = [0,0,0];
+
+		// 封装1的函数
+		function getJsonAndPush(page){
+			$.get("json/json"+ page + ".txt" , function(data){
+				var dataObj = eval("(" + data + ")");
+
+				// 截流
+				if(dataObj.news.length == 0){
+					return;
+				}
+
+				var dicArr = dataObj.news;
+				_.each(dicArr, function(dic){
+					var image = new Image();
+					image.src = dic.imgurl;
+
+					// ↙ 一旦图像加载完成，触发load事件
+					$(image).load(function(){
+						// ↙ 模板替换，dom插入
+						var domStr = compileFun(dic);
+						$grid = $(domStr);
+						$waterfall.append($grid);
+
+						// ↙ 瀑布流算法
+						var minValue = _.min(colHeight);
+						var minIndex = _.indexOf(colHeight, minValue);
+						$grid.css({
+							"top" : minValue,
+							"left" : minIndex * 270
+						});
+						colHeight[minIndex] += $grid.outerHeight() + 20;
+
+						// ↙ 大盒子高度重设
+						$waterfall.css("height", _.max(colHeight));
+					});
+				});
+
+				lock = true;
+			});
+		}
+		
+		// ↙ 首次加载
+		var lock = true;
+		var page = 1;
+		getJsonAndPush(1);
+
+		$(window).scroll(function(){
+			if(!lock){
+				return;
+			}
+			var rate = $(window).scrollTop() / ($(document).height() - $(window).height());
+			if(rate >= 0.7){
+				page++;
+				getJsonAndPush(page);
+				lock = false;
+			}
+		});
+
+	</script>
+</body>
+</html>
