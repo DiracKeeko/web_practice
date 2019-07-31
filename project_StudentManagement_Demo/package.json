@@ -1,0 +1,17 @@
+{
+  "name": "student_management_demo",
+  "version": "2.2.0",
+  "description": "一个学生管理的增删改查项目，典型MVC模式。 Node.js,Mongoose,Express,RESTful风格路由,ejs模板引擎,BootStrap",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DiracKeeko",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "formidable": "^1.1.1",
+    "mongoose": "^4.9.2"
+  }
+}

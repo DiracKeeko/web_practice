@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>学生管理系统Demo</title>
+
+  <!-- Theme CSS - Includes Bootstrap -->
+  <link href="/css/creative.min.css" rel="stylesheet">
+  <!-- Customized CSS -->
+  <link href="/css/style.css" rel="stylesheet">
+
+  <!-- js -->
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#">学生管理系统</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto my-2 my-lg-0">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/">所有学生</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/add">增加学生</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Update -->
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="page-head-line">修改学生</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p>学号：</p>
+        </div>
+        <div class="col-md-5">
+          <p>
+            <input type="text" class="form-control" name="sid" value="<%= info.sid %>" disabled></p>
+          <div class="alert alert-danger" role="alert" id="sid_tip" style="display:none;">学号已经存在，请检查！</div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-1">
+          <p>姓名：</p>
+        </div>
+        <div class="col-md-5">
+          <p>
+            <input type="text" class="form-control" name="name" value="<%= info.name %>"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p>年龄：</p>
+        </div>
+        <div class="col-md-5">
+          <p>
+            <input type="text" class="form-control" name="age" value="<%= info.age %>"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <p>性别：</p>
+        </div>
+        <div class="col-md-5">
+          <p>
+            <label>
+              <input type="radio" value="男" name="sex" <% if(info.sex=='男'){ %> checked <% } %>>男</label>
+            <label>
+              <input type="radio" value="女" name="sex" <% if(info.sex=='女'){ %> checked <% } %>>女</label>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <button class="btn btn-success" id="btn">提交</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-5">
+      <div class="container">
+        <div class="small text-center text-muted">Copyright &copy; 2019 - DiracKeeko</div>
+      </div>
+    </footer>
+
+    <script type="text/javascript">
+      // 点击提交按钮的时候做的事情
+      $("#btn").click(function(){
+          var  sid = parseInt($("input[name=sid]").val());
+
+          $.post("/student/" + sid,{
+              name : $("input[name=name]").val(),
+              age : parseInt($("input[name=age]").val()),
+              sex : $("input[name=sex]:checked").val()
+          },function(data){
+              if(data.result == 1){
+                  alert("修改成功！");
+                  window.location = "/";
+              }else{
+                  alert("服务器错误！请联系管理员，怎么联系我也不知道！");
+              }
+          })
+      });
+    </script>
+</body>
+
+</html>

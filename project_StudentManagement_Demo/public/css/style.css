@@ -1,0 +1,103 @@
+﻿/* == ↙ Nav == */
+#mainNav {
+    background-color: #3d3d3d;
+}
+
+#mainNav .navbar-brand{
+    font-family: 'consolas','Microsoft Yahei';
+    font-weight: normal;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+    font-family: 'consolas','Microsoft Yahei';
+    font-weight: normal;
+}
+
+
+/* == ↙ Content == */
+.page-head-line {
+    font-weight: 900;
+    padding-bottom: 22px;
+    border-bottom: 2px solid #F0677C;
+    color: #F0677C;
+    font-size: 20px;
+    margin: 105px 0px 40px;
+    font-family: 'Roboto', 'Microsoft Yahei';
+}
+
+.panel-default {
+    font-family: 'Roboto', 'Microsoft Yahei';
+    line-height: 30px;
+    box-sizing: border-box;
+
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-size: 18px;
+}
+
+.panel-body {
+    padding: 0px 15px 15px;
+}
+
+.table-responsive {
+    min-height: .01%;
+    overflow-x: auto;
+    font-size: 14px;
+    color: #333;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    padding: 15px 17px 9px; 
+    border-top: none;
+    border-bottom: 2px solid #dee2e6;
+}
+.table td {
+    padding: .75rem;
+    vertical-align: top;
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+.btn{
+    width:50px;
+    height:30px;
+    font: normal 16px/30px "微软雅黑";
+    padding: 0;
+    margin: 0px auto;
+}
+
+
+/* == /add 界面 == */
+.row p{
+    font: normal 16px/16px "微软雅黑";
+}
+
+.form-control{
+    width: 360px;
+    height: 35px;
+    margin-top: -5px;
+    font: normal 16px/35px "微软雅黑";
+}
+
+#sid_tip{
+    font: normal 16px/20px "微软雅黑";
+    padding: 10px 15px;
+    margin-bottom: 28px;
+}
+
+.btn-success{
+    margin-top: -40px;
+}
