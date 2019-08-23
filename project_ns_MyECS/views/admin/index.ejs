@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+  <title>管理员面板 - 南师附中选修课报名系统</title>
+  <link href="/css/application-a07755f5.css" rel="stylesheet" type="text/css" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="/css/iconfont.css" rel="stylesheet" type="text/css"></head>
+<body class='main page'>
+  <% include include/header.ejs %>
+  <div id='wrapper'>
+    <% include include/sidebar.ejs %>
+    <section id='tools'>
+      <ul class='breadcrumb' id='breadcrumb'>
+        <li class='active'>选课状态</li>
+      </ul>
+    </section>
+    <!-- Content -->
+    <div id='content'>
+      <div class='panel panel-default'>
+        <div class='panel-heading'>
+          当前系统时间：
+        </div>
+        <div class='panel-body'>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      var myDate = new Date;
+      var year = myDate.getFullYear(); 
+      var mon = myDate.getMonth() + 1; 
+      var date = myDate.getDate(); 
+      var week = myDate.getDay();
+      var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+      $(".panel-heading").html("当前时间：" + year + "年" + mon + "月" + date + "日 " + weeks[week]);
+    })
+
+    $.get('/admin/data',function(results){
+      $(".panel-body p").remove();
+      $("<p>共有学生"+results.sNum+"人，课程" + results.cNum + "门。</br>已有"+ results.sFin + "人选课完成。</ p> ").appendTo(".panel-body");
+
+    });
+    
+    var timer = setInterval(function(){
+      $.get('/admin/data',function(results){
+        $(".panel-body p").remove();
+        $("<p>共有学生"+results.sNum+"人，课程" + results.cNum + "门。</br>已有"+ results.sFin + "人选课完成。</ p> ").appendTo(".panel-body");
+      });
+    },1500)
+
+    
+  </script>
+</body>
+</html>

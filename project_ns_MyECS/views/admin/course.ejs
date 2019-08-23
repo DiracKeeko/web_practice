@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+  <title>管理员面板 - 南师附中选修课报名系统</title>
+  <link href="/css/application-a07755f5.css" rel="stylesheet" type="text/css" />
+  <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/ui.jqgrid.css">
+  <link rel="stylesheet" href="/css/jquery-ui-1.8.16.custom.css">
+</head>
+<body class='main page'>
+  <!-- Navbar -->
+  <% include include/header.ejs %>
+
+  <div id='wrapper'>
+    <% include include/sidebar.ejs %>
+
+    <!-- Tools -->
+    <section id='tools'>
+      <ul class='breadcrumb' id='breadcrumb'>
+        <li class="active">
+          课程清单
+        </li>
+        <li>
+          <a href="/admin/course/import"> 导入课程</a>
+        </li>
+        <li>
+          <a href="/admin/course/add">增加课程 </a>
+        </li>
+      </ul>
+    </section>
+    <!-- Content -->
+    <div id='content'>
+      <div class='panel panel-default'>
+        <div class='panel-heading'>
+          课程清单
+        </div>
+        <div class='panel-body'> 
+            <div class="row searchbox">
+              <div class="col-lg-5">
+                <input type="text" class="form-control" placeholder="快捷查询" autofocus id="keywordtxt">
+              </div>
+            </div>   
+            <!-- 空表格，由jqGrid来填充表格的行、列 -->
+            <table id="list"></table>
+            <!-- 分页条 -->
+            <div id="listnav"></div>
+
+            <input type="button" class="btn btn-danger" value="删除" id="delBtn">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/js/grid.locale-cn.js"></script>
+  <script type="text/javascript" src="/js/jquery.jqGrid.src.js"></script>
+  <script type="text/javascript" src="/js/jquery.poshytip.js"></script>
+  <script type="text/javascript">
+       var lastsel3;
+       
+      $("#list").jqGrid({
+          datatype: "json",
+          url : "/admin/course/all",
+          colNames:["课程编号","名称","上课时间","允许年级","可报人数","授课老师","简介"],
+          colModel:[
+              {name:'cid'   , index:'cid' , width:80 , key : true},
+              {name:'name'  , index:'name', width:180 , editable : true},
+              {
+                name:'dayofweek' , 
+                index:'dayofweek', 
+                width:100 , 
+                editable : true,
+                edittype : "select",
+                editoptions : {value : "周二:周二;周三:周三;周五:周五"}
+              },
+              {
+                name:'allow'  , index:'allow'   , width:140 , editable : true 
+              },
+              {name:'number'  , index:'number'   , width:100 , editable : true},
+              {name:'teacher'  , index:'teacher'   , width:100 , editable : true},
+              {
+                name:'briefintro'  , 
+                index:'briefintro'   , 
+                width:300 , 
+                editable : true,
+                edittype : "textarea" 
+              }
+          ],
+          rowNum:10,
+          rowList:[10,20,30],
+          sortname: 'cid',
+          viewrecords: true,
+          autowidth:true,
+          pager : '#listnav',
+          height:310,
+          multiselect : true,
+          multiboxonly:true,
+          ondblClickRow : function(id) {
+            if (id && id !== lastsel3) {
+              jQuery('#list').jqGrid('restoreRow', lastsel3);
+              jQuery('#list').jqGrid('editRow',id, true, allowChoose);
+              lastsel3 = id;
+            }
+          } 
+      });
+  
+        function allowChoose(id){
+          $("#" + id + "_allow").hide();
+          $("#" + id + "_allow").after("<label><input type='checkbox' value='初一'/>初一</label><label><input type='checkbox' value='初二'/>初二</label> <label><input type='checkbox' value='初三'/>初三</label><label> <input type='checkbox' value='高一'/>高一</label><label><input type='checkbox' value='高二'/>高二</label><label><input type='checkbox' value='高三'/>高三</label> ");
+
+
+          var dataarr = $("#" + id + "_allow").val().split(",");
+          $.each(dataarr,function(index,value){
+            $("input[value=" + value + "]").attr("checked",true)
+          });
+
+          $("#" + id + "_allow").nextAll().change(function(){
+            var jieguo = [];
+
+            $("#" + id + "_allow").nextAll().find(":checked").each(function(){
+              jieguo.push($(this).val());
+            });
+
+            $("#" + id + "_allow").val(jieguo.join(","));
+          });
+        }
+
+
+
+        function showtip(content){
+            $('#info_tip').poshytip({
+                className: 'tip-yellowsimple',
+                content: content,
+                showOn: 'none',
+                alignTo: 'target',
+                alignX: 'inner-left',
+                offsetX: 0,
+                offsetY: 5
+            });
+            $('#info_tip').poshytip("show").poshytip('hideDelayed', 800);
+        }  
+
+
+        $("#keywordtxt").bind("input",function(){
+          var keyword = $(this).val();
+          $("#list").jqGrid("clearGridData").jqGrid('setGridParam',{  
+            datatype:'json',  
+            postData:{"keyword" : keyword}, 
+            page:1  
+          }).trigger("reloadGrid"); 
+        });
+
+
+        $("#delBtn").click(function(){
+          var arr = $("#list").jqGrid('getGridParam', 'selarrrow')
+          if(!confirm("真的要删除么？")){
+            return;
+          }
+          $.ajax({
+            "url" : "/admin/course/selected",
+            "type" : "delete",
+            "dataType": "json", 
+            "traditional" : true,
+            "data" : {"arr" : arr},
+            "success" : function(data){
+               $("#list").trigger("reloadGrid");
+               if(data.result == -1){
+                  alert("删除失败！");
+               }else{
+                 alert("成功删除了" + data.result + "条数据");
+               }
+            }
+          })
+          
+        });
+  </script>
+</body>
+</html>
